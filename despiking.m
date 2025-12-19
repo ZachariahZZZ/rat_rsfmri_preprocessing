@@ -8,12 +8,12 @@
 % 2. Also remove the first 10 volumes of each original EPI run (ensure the magnetization to reach a steady state)
 
 %%%%%%%%%%%%%% set parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data_dir='/home/labuser/project/organize_database/Rat_Database_AllBaseline';    % obtain data directory
+data_dir='C:\Users\lkz5285\Downloads\rsfMRI_test';    % obtain data directory
 T_removed=10;           % the number of intial volumes for removal
 remove_motion_NN=1;     % the option for removing the nearest temporal neighbors of motion volumes
 FD_threshold=0.2;       % the relative FD threshold for motion volume removal
 quality=0.9;            % the data quality criterion for classifying junk data (percentage of remaining volumes)
-use_parallel = true;    % the indicator (true/false) to use parallel computing
+use_parallel = false;    % the indicator (true/false) to use parallel computing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 disp(['The current working directory is ',data_dir])
@@ -91,7 +91,11 @@ for i=1:length(rats)
         original_length=size(nii.img,4);
         img = nii.img(:,:,:,removed_points_index);
         nii = make_nii(img, nii.hdr.dime.pixdim(2:4));
+        if ~exist('rfmri_intermediate','dir')
+            mkdir('rfmri_intermediate');
+        end
         save_nii(nii, fullfile('rfmri_intermediate', [scanname, '_despiked.nii']));
+        
         gzip(fullfile('rfmri_intermediate', [scanname, '_despiked.nii']));
         delete(fullfile('rfmri_intermediate', [scanname, '_despiked.nii']));
         fprintf('%s done\n', fullfile(rats(i).name, 'rfmri_intermediate', [scanname, '_despiked.nii.gz']));

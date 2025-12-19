@@ -3,7 +3,8 @@
 % (feed 'inputs_ica.m' to the GIFT toolbox).
 
 %%%%%%%%%%%%%% set parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data_dir='/path/to/data';
+data_dir='C:\Users\lkz5285\Downloads\rsfMRI_test';
+script_dir = 'C:\Users\lkz5285\Documents\GitHub\rat_rsfmri_preprocessing\';
 FWHM_ica=0.7; %FWHM=0.7mm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -40,7 +41,7 @@ for i=1:length(rat_list)
         end
         
         % write a script for GIFT ICA
-        script_dir = strrep(mfilename('fullpath'), mfilename, '');
+        % script_dir = strrep(mfilename('fullpath'), mfilename, '');
         fi = fopen(fullfile(script_dir, 'inputs_ica.m'),'r'); % open a script template
         fileo = fullfile(script_dir, ['inputs_ica',...
             rat_list(i).name,'_',scan_list(j).name(3:4),'.m']); 

@@ -114,7 +114,7 @@ prefix = 'ica_';
 
 %% Enter location (full file path) of the image file to use as mask
 % or use Default mask which is []
-maskFile = '/home/project/organize_database/preproc_code_4database_folder_structure/brain_mask_4ica.nii';
+maskFile = 'C:\Users\lkz5285\Documents\GitHub\rat_rsfmri_preprocessing\templates\brain_mask_4ica.nii';
 
 %% Group PCA Type. Used for analysis on multiple subjects and sessions when 2 data reduction steps are used.
 % Options are 'subject specific' and 'grand mean'. 

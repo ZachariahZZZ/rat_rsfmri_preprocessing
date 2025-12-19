@@ -8,7 +8,7 @@
 % Last modified date: 05/24/2020
 
 %%%%%%%%%%%%%% set parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data_dir = '/path/to/your/data'; % database folder
+data_dir = 'C:\Users\lkz5285\Downloads\rsfMRI_test'; % database folder
 FWHM = 1; % unit mm
 TR = 1;             % Repetition time of the scan.
 low_cutoff = 0.01;  % low cutoff frequency of the bandpass filter  (unit: Hz)
@@ -99,7 +99,7 @@ for i_rat = 1:length(rat_list)
         motion = load([scan_name, '_motion.txt']);
         motion = detrend(motion);
         % hard regressors
-        regressors = normalize([tcs, motion], 1);
+        regressors = normalize([tcs', motion], 1);
         
         %% soft regression %%%%%%%%%%%%%%%%%%%%%%%    
         % regress WM/CSF signal and motion parameters from image
@@ -138,9 +138,9 @@ for i_rat = 1:length(rat_list)
         a.Steps.ICA.IC_timeseries = compSet.tc;
         a.Steps.ICA.IC_bad = find(bad_index>0);
         a.Steps.ICNoiseCleaning.regression_method = 'soft';
-        if regression_option == 1:
+        if regression_option == 1
             a.Steps.ICNoiseCleaning.other_regressors = ['Average WM/CSF signal + motion parameters'];
-        elseif regression_option == 2:
+        elseif regression_option == 2
             a.Steps.ICNoiseCleaning.other_regressors = ['First ', num2str(size(wmcsf_reg, 2)), ' PCs of WM/CSF signal + motion parameters'];
         end
 
@@ -162,6 +162,9 @@ for i_rat = 1:length(rat_list)
         %% save the final result %%%%%%%%%%%%
         nii.img = img;
         preproc_dir = fullfile(data_dir, rat_list(i_rat).name, 'rfmri_processed');
+        if ~exist(preproc_dir)
+            mkdir(preproc_dir)
+        end
         save_nii(nii, fullfile(preproc_dir, [scan_name,'.nii']), [1,1,1]);
         
         % save .json file

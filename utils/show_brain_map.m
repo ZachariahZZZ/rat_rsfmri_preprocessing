@@ -4,7 +4,7 @@ ana=spm_read_vols(spm_vol(which('standard_anatomy_t2.nii')));
 ana = ana(:,:,selected_slices);
 ana = imresize(ana,0.25);
 brain_mask=spm_read_vols(spm_vol(which('brain_mask_64x64.nii')));
-wm_csf_mask = spm_read_vols(spm_vol(which('WM_CSF_mask_64x64.nii')));
+wm_csf_mask = spm_read_vols(spm_vol(which('WM_mask_64x64.nii')));
 brain_mask = brain_mask(:,:,selected_slices);
 wm_csf_mask = wm_csf_mask(:,:,selected_slices)>0;
 
@@ -78,4 +78,7 @@ for i = 1:length(bregmas)
     text(ys(y),xs(x),[num2str(bregmas(i)),' mm'],'FontSize',12,'FontWeight','bold','Color','w');
 end
 
+    function rat_fmri_imoverlay(varargin)
+        myimoverlay(varargin{:})
+    end
 end

@@ -6,14 +6,17 @@
 % Last modified data: 11/05/2019
 
 %%%%%%%%%%%%%% set parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data_dir = '/home/project/organize_database/Rat_Database_AllBaseline';
+data_dir = 'C:\Users\lkz5285\Downloads\rsfMRI_test';
 % database folder
-ica_dir = '/home/project/organize_database/test';
+ica_dir = 'C:\Users\lkz5285\Downloads\rsfMRI_test\ICA';
 % temporary ICA folder
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% copy out ICA results for manual labeling
-mkdir(ica_dir);
+if ~exist(ica_dir,'dir')
+    mkdir(ica_dir);
+end
+
 rat_list = dir(fullfile(data_dir, 'rat*'));
 for i = 1:length(rat_list)
     scan_list = dir(fullfile(data_dir, rat_list(i).name, 'rfmri_intermediate', '*warped.nii'));
@@ -31,7 +34,7 @@ for i = 1:length(list)
     cd(fullfile(list(i).folder, list(i).name));
     mkdir('report');
     load('ica__ica.mat');
-    % load('ica__ica_br1.mat');
+    load('ica__ica_br1.mat');
     tc = compSet.tc';
     icasig = compSet.ic;
     

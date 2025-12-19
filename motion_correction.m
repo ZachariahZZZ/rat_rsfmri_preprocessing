@@ -4,7 +4,7 @@
 % Last modified date: 05/24/2020
 
 %%%%%%%%%%%%%% set parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data_dir='/path/to/data';
+data_dir='C:\Users\lkz5285\Downloads\rsfMRI_test\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read in the brain mask
@@ -24,6 +24,8 @@ for i=1:length(rat_list)
     for j = 1:length(scan_list)
         nii = load_nii(scan_list(j).name);
         img = nii.img;
+
+        error("fix this scan_name using regexp")
         scan_name = scan_list(j).name(3:4);
         
         for t = 1:size(img,4)
@@ -62,7 +64,7 @@ for i=1:length(rat_list)
         save_nii(nii, [scan_name, '_motioncorrected.nii'], [1,1,1]);
         gzip([scan_name, '_motioncorrected.nii']);
         delete([scan_name, '_motioncorrected.nii']);
-        nii = make_nii(img(:,:,:,1), nii.dime.pixdim(2:4));
+        nii = make_nii(img(:,:,:,1), nii.hdr.dime.pixdim(2:4));
         save_nii(nii, [scan_name, '_motioncorrected_frame1.nii'], [1,1,1]);
         movefile(['rp_', scan_name, '_x10.txt'], [scan_name, '_motion.txt']);
         
